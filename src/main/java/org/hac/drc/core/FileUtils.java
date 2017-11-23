@@ -65,7 +65,7 @@ public class FileUtils {
 		return fileWithTimeStamp;
 		
 	}
-	public static synchronized void writeToErrorFile(String source, String errorRecord){
+	/*public static synchronized void writeToErrorFile(String source, String errorRecord){
 		
 		File errorFile = new File(ErrorFilesLocation.getFilePath(source));
 		
@@ -82,7 +82,7 @@ public class FileUtils {
 		}catch(FileNotFoundException e){
 			
 		}
-	}
+	}*/
 	
 	public static String readFile(String path) throws IOException{
 		StringBuilder sb = new StringBuilder();

@@ -84,6 +84,7 @@ public class ProcessingWorker extends Worker{
 		defaulterMap.put(vary, varyList);
 		defaulterMap.put(cache_control, cacheControlList);
 		defaulterMap.put(status, statusList);
+		defaulterMap.put(accept_encoding, acceptEncodingList);
 		
 		defaulterMap.forEach((k,v) -> {
 			System.out.println(k +" :: "+ v);
