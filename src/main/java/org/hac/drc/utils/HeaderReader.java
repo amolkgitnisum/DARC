@@ -20,7 +20,7 @@ public class HeaderReader {
 	
 	
 	public static Map<String, List<String>> checkHeaders(List<String> urls) throws Exception{
-
+		
 		List<String> connectionList = new ArrayList<>();
 		List<String> eTagList = new ArrayList<>();
 		List<String> lastModifiedList = new ArrayList<>();

@@ -1,7 +1,5 @@
 package org.hac.drc.controller;
 
-import java.net.Authenticator.RequestorType;
-
 import org.hac.drc.service.DarcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
