@@ -1,0 +1,104 @@
+h1{
+	color: SteelBlue;
+	text-align: center;
+	font-size: 60px;
+	padding: 70px 0px 0px 200px;
+}
+
+.evalH{
+	color: SteelBlue;
+	text-align: center;
+	font-size: 60px;
+	padding: 0px 0px 0px 50px;
+}
+
+input{
+	width:1170px;
+	height: 50px;
+	border-bottom: 6px solid red;
+    background-color: LightCyan;
+}
+
+#button{
+	background-color: SteelBlue;
+    border: none;
+    color: white;
+    width: 150px;
+    height: 50px;
+    text-align: center;
+    font-size: 20px;
+    left:1025px;
+    position: relative; 
+}
+
+input,input::placeholder {
+    font-size: 30px;
+}
+
+#divStyle{
+background-image: url('background.png'); 
+height: 550px; 
+width: 1500px;
+background-position: center;
+background-repeat: no-repeat;
+}
+
+
+#evalStyle{ 
+height: 550px; 
+width: 1500px;
+background-position: center;
+background-repeat: no-repeat;
+}
+
+#animation{
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    position: relative;
+    animation-name: example;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;    
+}
+
+@keyframes example {
+    0%   {background-color:cyan; left:0px; top:0px;}
+    25%  {background-color:cyan; left:0px; top:100px;}
+    50%  {background-color:cyan; left:0px; top:200px;}
+    75%  {background-color:cyan; left:0px; top:300px;}
+    100% {background-color:cyan; left:0px; top:370px;}
+}
+
+th{
+	font-size: 30px;
+}
+
+#tableStyle{
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    top:50px;
+    position: relative;
+}
+
+#tableStyle td, #tableStyle th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#tableStyle tr:nth-child(even){background-color: #f2f2f2;}
+
+#tableStyle tr:hover {background-color: #ddd;}
+
+#tableStyle th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: LightGray;
+    color: SteelBlue;
+}
+
+span{
+	font-size: 20px;
+	font-family: verdana;
+}

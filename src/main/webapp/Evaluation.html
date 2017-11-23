@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DARC Report</title>
+        <link rel="stylesheet" type="text/css" href="Style.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+            	$("#reportData").hide();
+                setTimeout(function(){ 
+                	$("#evalStyle").hide();
+                	$("#reportData").show(); 
+                }, 1000);
+            });
+        </script>        
+    </head>
+    <body style="background-image: url('background.png');">
+        <div style="padding-top: 0px;left: -350px;position: relative;">
+            <img src="mainDarc.png" style="height: 100px;width: 300px; left: 350px; position: relative;">
+        </div>
+        <div id="evalStyle"> <!-- Loading Graph -->
+        	<h1 class="evalH">Generating Report</h1>
+            <div style="width: 900px;height: 400px;border: 1px solid black;position: relative;left: 300px;background-color: grey;">
+                <div id="animation" style="width: 900px;height: 20px;border: 1px solid black;position: absolute;left: 0px;background-color: lightblue;text-align: center;font-weight: bold;">Loading....</div>
+            </div>
+        </div> 
+        <div id="reportData" style="width:1530px;height:600px;"">  <!-- Displaying Data -->
+        	<h1 class="evalH">Latest Performance Report</h1>
+        	<div id="reportDetails">
+        		<table cellspacing="50" id="tableStyle">
+        			<tr>
+        				<th>Alexa Ranking</th>
+        				<th>No: of Images</th>
+        				<th>No: of hrefs</th>
+        				<th>Page Size</th>
+        				<th>No: of good & bad links</th>
+        			</tr>
+        			<tr>
+        				<td>
+        					<span>
+        						Gloabl Ranking :: <span id="gAlexa">1</span>
+        					</span><br /><br />
+        					<span>Local Ranking :: <span id="lAlexa">1</span>
+        					</span>
+        				</td>
+        				<td>
+        					Count :: <span id="imageCount">1</span>
+        				</td>
+        				<td>
+        					Count :: <span id="hrefCount">1</span>
+        				</td>
+        				<td>
+        					KB :: <span id="sizeCount">1</span>
+        				</td>
+        				<td>
+        					<span>
+        						Good Links :: <span id="glinks">1</span>
+        					</span><br /><br />
+        					<span>Bad Links :: <span id="llinks">1</span>
+        					</span>
+        				</td>
+        			</tr>        			
+        		</table>
+        	</div>
+        </div>        
+    </body>
+</html>
