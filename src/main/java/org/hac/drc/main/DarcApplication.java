@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
-@ComponentScan("org.hac.drc.controller,org.hac.drc.dao,org.hac.drc.service")
+@ComponentScan("org.hac")
 public class DarcApplication {
 
 	public static void main(String[] args) {

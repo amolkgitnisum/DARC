@@ -1,9 +1,16 @@
 package org.hac.drc.dao;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -38,6 +45,101 @@ public class DarcDaoImpl implements DarcDao {
 		String status="success";
 		return status;
 	}
+	
+	public String getAlexaRanking(String url) {
+
+
+
+		StringBuffer result = new StringBuffer();
+
+		URL domainUrl;
+
+		try {
+
+		domainUrl = new URL(url);
+
+		String domainName = domainUrl.getHost();
+
+
+		URL urlFinal = new URL("https://www.alexa.com/siteinfo/" + domainName.replaceAll("wwww.", ""));
+
+
+
+		URLConnection con = urlFinal.openConnection();
+
+		InputStream is = con.getInputStream();
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+		LineNumberReader lnr = new LineNumberReader(br);
+
+		int globalRankNumber = 0;
+
+		int localRankNumber = 0;
+
+		String areaName = "";
+
+		for (String line = null; (line = lnr.readLine()) != null;) {
+
+
+
+		if (line.contains("title='Global rank icon'")) {
+
+		globalRankNumber = lnr.getLineNumber() + 2;
+
+		}
+
+
+
+		if (line.contains("<img class='img-inline ' src='/images/flags/")) {
+
+		StringBuffer sb = new StringBuffer(line);
+
+		areaName = line.substring((sb.indexOf("title='") + 7), sb.indexOf("Flag'")).trim();
+
+		localRankNumber = lnr.getLineNumber() + 1;
+
+		}
+
+
+
+		if (lnr.getLineNumber() == globalRankNumber) {
+
+		result.append(" Global Rank: " + line.replaceAll("</strong>", "").trim());
+
+		System.out.println("Execution.main()     Global Rank: " + line.replaceAll("</strong>", "").trim());
+
+		}
+
+		if (lnr.getLineNumber() == localRankNumber) {
+
+		result.append(" @  Rank in  " + areaName + " : " + line.replaceAll("</strong>", "").trim());
+
+		System.out.println(
+
+		"Execution.main()     " + areaName + " Rank: " + line.replaceAll("</strong>", "").trim());
+
+		}
+
+		}
+
+		} catch (MalformedURLException e) {
+
+		e.printStackTrace();
+
+		} catch (IOException e) {
+
+		e.printStackTrace();
+
+		}
+
+
+
+		return result.toString();
+
+
+
+		}
 
 	public Map<String, List<String>> checkHeaders(List<String> urls) throws Exception{
 		
@@ -113,7 +215,7 @@ public class DarcDaoImpl implements DarcDao {
         ArrayList<HashMap<String,String>> totalsal=new ArrayList<HashMap<String,String>>();
         ArrayList<String> listofurls=new ArrayList<String>();
         HashMap<String,String> totcountmap=new HashMap<String,String>();
-        
+        int noofimages=0;
         totcountmap.put("mediasize", String.valueOf(media.size()));
         totcountmap.put("importssize", String.valueOf(imports.size()));
         totcountmap.put("linkssize", String.valueOf(links.size()));
@@ -126,7 +228,7 @@ public class DarcDaoImpl implements DarcDao {
                // print(" * %s: <%s> %sx%s (%s)",
                  //       src.tagName(), src.attr("abs:src"), src.attr("width"), src.attr("height"),
               String imagelink=src.attr("abs:src");
-             
+              noofimages=noofimages+1;
             	if(""!=imagelink)  
             	{
             	//System.out.println("imagefile"+src.attr("abs:src"));
@@ -243,6 +345,9 @@ public class DarcDaoImpl implements DarcDao {
         	}
         }
         totcountmap.put("webpagesize", String.valueOf(webpagesize));
+        totcountmap.put("alexaranking",getAlexaRanking(url));
+        totcountmap.put("noOfImages",String.valueOf(noofimages));
+        
         totalsal.add(totcountmap);
         responsemap.put("totals", totalsal);
         responsemap.put("imageslessthan15kb", imageal);
