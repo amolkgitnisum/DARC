@@ -1,4 +1,4 @@
-package org.hac.drc.utils;
+package org.hac.drc.core;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HeaderReader {
+public class ProcessingWorker extends Worker{
 
 	private static final String CONNECTION = "Connection";
 	private static final String ETAG = "ETag";
@@ -16,11 +16,16 @@ public class HeaderReader {
 	private static final String vary = "vary";
 	private static final String cache_control = "Cache-Control";
 	private static final String status = "status";
-	//private static final String vary = "vary";
 	
+	private List<String> urls;
 	
-	public static Map<String, List<String>> checkHeaders(List<String> urls) throws Exception{
-				
+	public ProcessingWorker(List<String> urls){
+		this.urls=urls;
+	}
+	
+	@Override
+	public Object process() {
+		
 		List<String> connectionList = new ArrayList<>();
 		List<String> eTagList = new ArrayList<>();
 		List<String> lastModifiedList = new ArrayList<>();
@@ -29,6 +34,7 @@ public class HeaderReader {
 		List<String> cacheControlList = new ArrayList<>();
 		List<String> statusList = new ArrayList<>();
 		Map<String, List<String>> defaulterMap = new HashMap<>();
+		
 		urls.forEach(url -> {
 			try{
 				URL obj = new URL(url);
@@ -64,7 +70,7 @@ public class HeaderReader {
 						}
 					});
 				}
-				if(responseCode != 200){
+				if(responseCode == 404){
 					statusList.add(url);
 				}
 				
@@ -82,8 +88,7 @@ public class HeaderReader {
 		defaulterMap.forEach((k,v) -> {
 			System.out.println(k +" :: "+ v);
 		});
-		
 		return defaulterMap;
 	}
-	
+
 }
