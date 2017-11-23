@@ -1,6 +1,7 @@
 package org.hac.drc.dao;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hac.drc.core.ConcurrentProcessor;
 import org.hac.drc.core.FileSplitter;
@@ -27,6 +29,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Repository;
+
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 @Repository
 public class DarcDaoImpl implements DarcDao {
@@ -360,6 +366,8 @@ public class DarcDaoImpl implements DarcDao {
         responsemap.put("headers", checkHeaders(listofurls));
         System.out.println(responsemap.toString());
 		
+        createPdf(responsemap,url);
+        
 		return responsemap;
 	}
 	
@@ -390,4 +398,71 @@ public class DarcDaoImpl implements DarcDao {
     	
     	return size1;
     }
+    
+    public void createPdf(HashMap responsemap,String url)
+
+    		throws DocumentException, IOException {
+
+    		      com.itextpdf.text.Document document = new com.itextpdf.text.Document();
+
+    		      PdfWriter.getInstance(document, new FileOutputStream("C:/pdf report/Report.pdf"));
+
+    		      document.open();
+    		      	
+    		      document.add(new Paragraph("Domain Analysis Report to Consolidate for "+url));
+    		      	
+    		    
+    		      ArrayList<HashMap<String,String>> totcountal=(ArrayList<HashMap<String,String>>)responsemap.get("totals");
+    		      HashMap<String,String> totcountmap=(HashMap<String,String>)totcountal.get(0);
+    		    	 String alexaranking=(String)totcountmap.get("alexaranking");
+    		    	 String webpagesize=(String)totcountmap.get("webpagesize");
+    		    	 String noOfImages=(String)totcountmap.get("noOfImages");
+    		    	 String mediasize=(String)totcountmap.get("mediasize");
+    		    	 String importssize=(String)totcountmap.get("importssize");
+    		    	 String linkssize=(String)totcountmap.get("linkssize");
+    		   
+    		    	 Map<String,List<String>> headermap=(Map<String,List<String>>)responsemap.get("headers");
+    		    	 ArrayList<String> statusal=(ArrayList<String>)headermap.get("status");
+    		    	 document.add(new Paragraph(alexaranking));
+
+    		    	 document.add(new Paragraph("size of the page:"+webpagesize+"kb"));
+    		    	 document.add(new Paragraph("No of Images :"+noOfImages));
+    		    	 document.add(new Paragraph("Media Size:"+mediasize));
+    		    	 document.add(new Paragraph("Importssize :"+importssize));
+    		    	 document.add(new Paragraph("No of Links:"+linkssize));
+    		    	 
+    		    	 document.add(new Paragraph("Bad Links:"));
+    		    	 if(statusal.size()==0)
+		    		 {
+		    			 try {
+							document.add(new Paragraph("No Bad links"));
+						} catch (DocumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+		    		 }
+    		    	 else
+    		    	 {
+    		    	 statusal.forEach(links->{
+    		    		 try {
+    		    			 
+							document.add(new Paragraph(links));
+						} catch (DocumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+    		    	 
+    		    		 
+    		    		 
+    		    	 });
+    		    	 }
+    		    	
+    		    	 
+    		       
+
+    		       
+
+    		      document.close();
+
+    		}
 }

@@ -72,10 +72,11 @@
 	   $("#reportData").hide();
 	   var url=$('#url').val();
 	   console.log('/generatereport?url='+url+'');
-	   
+	   var resultforpdf;
 	    $.get('/generatereport?url='+url+'', function(data, status){
 	        //alert("Data: " + data + "\nStatus: " + status);
 	        var result=data;
+	        resultforpdf=result;
 	        console.log(result);
 	        var alexaranking=result.totals["0"].alexaranking;
 	         
@@ -110,6 +111,8 @@
 	        	}
 	        
 	    }); 
+	    
+	    //console.log(resultforpdf);
 	   
    });
    
